@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import messagebox
 from vue.base_frame import BaseFrame
+from tkinter import ttk
 
 
 class ProfileFrame(BaseFrame):
@@ -29,6 +30,17 @@ class ProfileFrame(BaseFrame):
                                              row=3, validate_callback=self.validate_email,
                                              disabled=True, columnspan=4)
 
+        self.comboExample = ttk.Combobox(self,
+                                         values=[
+                                             "",
+                                             "Foot",
+                                             "Curling",
+                                             "Caps",
+                                             "BottleFlip", ],
+                                         state="readonly")
+        # print(dict(comboExample))
+        self.comboExample.grid(column=1, row=4)
+        self.comboExample.current(0)
         # Buttons
         self.edit_button = Button(self, text="Edit",
                                   command=self.edit)
