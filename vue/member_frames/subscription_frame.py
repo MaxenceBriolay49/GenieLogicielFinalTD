@@ -1,6 +1,6 @@
-
-
 from tkinter import *
+from tkinter import ttk
+import tkinter as tk
 from tkinter import messagebox
 
 from vue.base_frame import BaseFrame
@@ -8,6 +8,31 @@ from exceptions import Error
 
 
 class SubscriptionFrame(BaseFrame):
+
+    # @staticmethod
+    # def callbackFunc():
+    #   print("New Element Selected")
+
+    #     sport = tk.Tk()
+    #     sport.geometry('200x100')
+    #
+    #     labelTop = tk.Label(sport,
+    #                         text = "Choose your sport")
+    #     labelTop.grid(column=0, row=0)
+    #
+    #     comboExample = ttk.Combobox(sport,
+    #                                 values=[
+    #                                         "",
+    #                                         "Foot",
+    #                                         "Curling",
+    #                                         "Caps",
+    #                                         "BottleFlip",],
+    #                                         state="readonly")
+    #     #print(dict(comboExample))
+    #     comboExample.grid(column=0, row=3)
+    #     comboExample.current(1)
+    # #comboExample.bind("<<ComboboxSelected>>", callbackFunc)
+    #      # print(comboExample.current(),comboExample.get())
 
     def __init__(self, member_controller, master=None):
         super().__init__(master)
@@ -26,8 +51,19 @@ class SubscriptionFrame(BaseFrame):
                             command=self.valid)
         self.cancel = Button(self, text="cancel", fg="red",
                              command=self.show_menu)
-        self.valid.grid(row=4, column=1, sticky=E)
-        self.cancel.grid(row=4, column=2, sticky=W)
+        self.comboExample = ttk.Combobox(self,
+                                         values=[
+                                             "",
+                                             "Foot",
+                                             "Curling",
+                                             "Caps",
+                                             "BottleFlip", ],
+                                         state="readonly")
+        # print(dict(comboExample))
+        self.comboExample.grid(column=1, row=4)
+        self.comboExample.current(0)
+        self.valid.grid(row=5, column=1, sticky=E)
+        self.cancel.grid(row=5, column=2, sticky=W)
 
     def validate_name(self, event, entry=None):
         if not self.name_pattern.match(entry.get()):
