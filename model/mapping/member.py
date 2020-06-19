@@ -1,7 +1,7 @@
 from model.mapping import Base, generate_id
 import uuid
 
-from sqlalchemy import Column, String, UniqueConstraint
+from sqlalchemy import Column, String, UniqueConstraint, Integer
 
 
 class Member(Base):
@@ -15,6 +15,8 @@ class Member(Base):
 
     email = Column(String(256), nullable=False)
 
+    sport = Column(Integer, nullable=False)
+
     def __repr__(self):
         return "<Member(%s %s)>" % (self.firstname, self.lastname.upper())
 
@@ -23,5 +25,6 @@ class Member(Base):
             "id": self.id,
             "firstname": self.firstname,
             "lastname": self.lastname,
-            "email": self.email
+            "email": self.email,
+            "sport": self.sport
         }

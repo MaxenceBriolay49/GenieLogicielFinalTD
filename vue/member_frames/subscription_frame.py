@@ -46,22 +46,23 @@ class SubscriptionFrame(BaseFrame):
         self.firstname_entry = self.create_entry("Firstname", row=0, validate_callback=self.validate_name)
         self.lastname_entry = self.create_entry("Lastname", row=1, validate_callback=self.validate_name)
         self.email_entry = self.create_entry("Email", row=2, validate_callback=self.validate_email)
+        self.comboBox = self.create_comboBox("Sport", row=4, columnspan=3)
 
         self.valid = Button(self, text="valid", fg="red",
                             command=self.valid)
         self.cancel = Button(self, text="cancel", fg="red",
                              command=self.show_menu)
-        self.comboExample = ttk.Combobox(self,
-                                         values=[
-                                             "",
-                                             "Foot",
-                                             "Curling",
-                                             "Caps",
-                                             "BottleFlip", ],
-                                         state="readonly")
-        # print(dict(comboExample))
-        self.comboExample.grid(column=1, row=4)
-        self.comboExample.current(0)
+        # self.comboExample = ttk.Combobox(self,
+        #                                  values=[
+        #                                      "",
+        #                                      "Foot",
+        #                                      "Curling",
+        #                                      "Caps",
+        #                                      "BottleFlip", ],
+        #                                  state="readonly")
+        # # print(dict(comboExample))
+        # self.comboExample.grid("Sport", column=1, row=4)
+        # self.comboExample.current(0)
         self.valid.grid(row=5, column=1, sticky=E)
         self.cancel.grid(row=5, column=2, sticky=W)
 
@@ -76,6 +77,11 @@ class SubscriptionFrame(BaseFrame):
             entry.config(fg='red')
         else:
             entry.config(fg='black')
+
+
+    # def validate_sport(self, event, entry=None):
+    #     if not self.comboExample.current() == 0
+
 
     def valid(self):
 

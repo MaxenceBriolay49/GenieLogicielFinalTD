@@ -70,7 +70,8 @@ class MemberController:
         mandatories = {
             'firstname': {"type": str, "regex": name_pattern},
             'lastname': {"type": str, "regex": name_pattern},
-            'email': {"type": str, "regex": email_pattern}
+            'email': {"type": str, "regex": email_pattern},
+            'sport': {"type": int}
         }
         for mandatory, specs in mandatories.items():
             if not update:

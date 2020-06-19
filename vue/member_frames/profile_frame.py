@@ -30,6 +30,8 @@ class ProfileFrame(BaseFrame):
                                              row=3, validate_callback=self.validate_email,
                                              disabled=True, columnspan=4)
 
+        self.comboBox = self.create_comboBox("Sport", text=self._member['sport'], row=4, columnspan=3, disabled=TRUE)
+
         self.comboExample = ttk.Combobox(self,
                                          values=[
                                              "",
