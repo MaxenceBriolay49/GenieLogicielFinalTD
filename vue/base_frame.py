@@ -33,27 +33,23 @@ class BaseFrame(Frame):
         entry.grid(row=row, column=1, columnspan=columnspan)
         return entry
 
-
-    def create_comboBox(self, label, row,  text=None,
-                     disabled=False, columnspan=3, **options):
+    def create_comboBox(self, label, row, current,
+                        disabled=False, **options):
         Label(self, text=label).grid(row=row, sticky="w")
         comboBox = ttk.Combobox(self,
-                                     values=[
-                                             "",
-                                             "Foot",
-                                             "Curling",
-                                             "Caps",
-                                             "BottleFlip", ],
-                                     state="readonly")
+                                values=[
+                                    "",
+                                    "Foot",
+                                    "Curling",
+                                    "Caps",
+                                    "BottleFlip", ],
+                                state="readonly")
         # print(dict(comboExample))
-        comboBox.grid(column=1, row=4)
-        comboBox.current(0)
+        comboBox.grid(column=1, row=row)
+        comboBox.current(current)
         if disabled:
-            comboBox.config(state= DISABLED)
+            comboBox.config(state=DISABLED)
         return comboBox
-
-
-
 
     def show_menu(self):
         self._root_frame.show_menu()

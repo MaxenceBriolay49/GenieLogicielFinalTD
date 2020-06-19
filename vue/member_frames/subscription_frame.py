@@ -8,32 +8,6 @@ from exceptions import Error
 
 
 class SubscriptionFrame(BaseFrame):
-
-    # @staticmethod
-    # def callbackFunc():
-    #   print("New Element Selected")
-
-    #     sport = tk.Tk()
-    #     sport.geometry('200x100')
-    #
-    #     labelTop = tk.Label(sport,
-    #                         text = "Choose your sport")
-    #     labelTop.grid(column=0, row=0)
-    #
-    #     comboExample = ttk.Combobox(sport,
-    #                                 values=[
-    #                                         "",
-    #                                         "Foot",
-    #                                         "Curling",
-    #                                         "Caps",
-    #                                         "BottleFlip",],
-    #                                         state="readonly")
-    #     #print(dict(comboExample))
-    #     comboExample.grid(column=0, row=3)
-    #     comboExample.current(1)
-    # #comboExample.bind("<<ComboboxSelected>>", callbackFunc)
-    #      # print(comboExample.current(),comboExample.get())
-
     def __init__(self, member_controller, master=None):
         super().__init__(master)
         self._member_controller = member_controller
@@ -46,7 +20,7 @@ class SubscriptionFrame(BaseFrame):
         self.firstname_entry = self.create_entry("Firstname", row=0, validate_callback=self.validate_name)
         self.lastname_entry = self.create_entry("Lastname", row=1, validate_callback=self.validate_name)
         self.email_entry = self.create_entry("Email", row=2, validate_callback=self.validate_email)
-        self.comboBox = self.create_comboBox("Sport", row=4, columnspan=3)
+        self.comboBox = self.create_comboBox("Sport", row=4, columnspan=3, current=0)
 
         self.valid = Button(self, text="valid", fg="red",
                             command=self.valid)
@@ -78,22 +52,26 @@ class SubscriptionFrame(BaseFrame):
         else:
             entry.config(fg='black')
 
-
     # def validate_sport(self, event, entry=None):
     #     if not self.comboExample.current() == 0
 
-
     def valid(self):
 
-        data = dict(firstname=self.firstname_entry.get(), lastname=self.lastname_entry.get(),
-                    email=self.email_entry.get())
-        try:
-            member_data = self._member_controller.create_member(data)
-            messagebox.showinfo("Success",
-                                "Member %s %s created !" % (member_data['firstname'], member_data['lastname']))
+        data_ok = True
+        if self.comboBox.current() == 0:
+            messagebox.showinfo("Erreur", "Sélectionner un sport")
+            data_ok = False
 
-        except Error as e:
-            messagebox.showerror("Error", str(e))
+        if data_ok:
+            data = dict(firstname=self.firstname_entry.get(), lastname=self.lastname_entry.get(),
+                        email=self.email_entry.get(), sport=self.comboBox.current())
+            try:
+                member_data = self._member_controller.create_member(data)
+                messagebox.showinfo("Success",
+                                    "Member %s %s created !" % (member_data['firstname'], member_data['lastname']))
+
+            except Error as e:
+                messagebox.showerror("Error", str(e))
             return
 
         self.show_menu()

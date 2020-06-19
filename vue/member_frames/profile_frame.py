@@ -30,19 +30,19 @@ class ProfileFrame(BaseFrame):
                                              row=3, validate_callback=self.validate_email,
                                              disabled=True, columnspan=4)
 
-        self.comboBox = self.create_comboBox("Sport", text=self._member['sport'], row=4, columnspan=3, disabled=TRUE)
+        self.comboBox = self.create_comboBox("Sport", text=self._member['sport'], row=4,  disabled=TRUE,current=self._member['sport'])
 
-        self.comboExample = ttk.Combobox(self,
-                                         values=[
-                                             "",
-                                             "Foot",
-                                             "Curling",
-                                             "Caps",
-                                             "BottleFlip", ],
-                                         state="readonly")
-        # print(dict(comboExample))
-        self.comboExample.grid(column=1, row=4)
-        self.comboExample.current(0)
+        # self.comboExample = ttk.Combobox(self,
+        #                                  values=[
+        #                                      "",
+        #                                      "Foot",
+        #                                      "Curling",
+        #                                      "Caps",
+        #                                      "BottleFlip", ],
+        #                                  state="readonly")
+        # # print(dict(comboExample))
+        # self.comboExample.grid(column=1, row=4)
+        # self.comboExample.current(0)
         # Buttons
         self.edit_button = Button(self, text="Edit",
                                   command=self.edit)
@@ -74,6 +74,7 @@ class ProfileFrame(BaseFrame):
         self.firstname_entry.config(state=NORMAL)
         self.lastname_entry.config(state=NORMAL)
         self.email_entry.config(state=NORMAL)
+        self.comboBox.config(state=NORMAL)
         self.cancel_button.grid(row=5, column=2, sticky="nsew")
         self.update_button.grid(row=5, column=1, sticky="nsew")
 
@@ -90,13 +91,15 @@ class ProfileFrame(BaseFrame):
         self.email_entry.delete(0, END)
         self.email_entry.insert(0, self._member['email'])
         self.email_entry.config(state=DISABLED)
+        self.comboBox.current(self._member["sport"])
+        self.comboBox.config(state=DISABLED)
         self.edit_button.grid(row=5, column=1, sticky="nsew")
         self.remove_button.grid(row=5, column=2, sticky="nsew")
 
     def update(self):
 
         data = dict(firstname=self.firstname_entry.get(), lastname=self.lastname_entry.get(),
-                    email=self.email_entry.get())
+                    email=self.email_entry.get(),sport=self.comboBox.current())
         member = self._member_controller.update_member(self._member['id'], data)
         self._member = member
         self.refresh()
