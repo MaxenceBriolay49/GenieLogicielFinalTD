@@ -1,5 +1,6 @@
 from tkinter import Frame, Label, Entry, DISABLED
 from functools import partial
+from tkinter import ttk
 
 
 class BaseFrame(Frame):
@@ -31,6 +32,28 @@ class BaseFrame(Frame):
             entry.bind('<KeyRelease>', partial(validate_callback, entry=entry))
         entry.grid(row=row, column=1, columnspan=columnspan)
         return entry
+
+
+    def create_comboBox(self, label, row,  text=None,
+                     disabled=False, columnspan=3, **options):
+        Label(self, text=label).grid(row=row, sticky="w")
+        comboBox = ttk.Combobox(self,
+                                     values=[
+                                             "",
+                                             "Foot",
+                                             "Curling",
+                                             "Caps",
+                                             "BottleFlip", ],
+                                     state="readonly")
+        # print(dict(comboExample))
+        comboBox.grid(column=1, row=4)
+        comboBox.current(0)
+        if disabled:
+            comboBox.config(state= DISABLED)
+        return comboBox
+
+
+
 
     def show_menu(self):
         self._root_frame.show_menu()
