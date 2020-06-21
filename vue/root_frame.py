@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 from vue.member_menu_frame import MemberMenuFrame
 from vue.member_frames.subscription_frame import SubscriptionFrame
 from vue.member_frames.list_members_frame import ListMembersFrame
@@ -11,16 +12,17 @@ class RootFrame(Frame):
     Member actions
     """
 
-    def __init__(self, member_controller, master=None):
+    def __init__(self, member_controller, sport_controller, master=None):
         super().__init__(master)
         self._member_controller = member_controller
+        self._sport_controller = sport_controller
         self._menu_frame = MemberMenuFrame(self)
         self._frames = []
 
     def show_subscribe(self):
         self.hide_menu()
         # Show formular subscribe
-        subscribe_frame = SubscriptionFrame(self._member_controller, self)
+        subscribe_frame = SubscriptionFrame(self._member_controller, self._sport_controller, self)
         subscribe_frame.show()
         self._frames.append(subscribe_frame)
 

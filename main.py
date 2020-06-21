@@ -1,3 +1,4 @@
+from controller.sport_controller import SportController
 from model.database import DatabaseEngine
 from controller.member_controller import MemberController
 
@@ -13,9 +14,10 @@ def main():
 
     # controller
     member_controller = MemberController(database_engine)
+    sport_controller = SportController(database_engine)
 
     # init vue
-    root = RootFrame(member_controller)
+    root = RootFrame(member_controller, sport_controller)
     root.master.title("bds subscription app")
     root.show_menu()
 
