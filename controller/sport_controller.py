@@ -1,4 +1,3 @@
-
 from model.dao.sport_dao import SportDAO
 
 
@@ -13,3 +12,11 @@ class SportController:
             sports = SportDAO(session).get_all()
             sports_data = [sport.to_dict() for sport in sports]
         return sports_data
+
+    def get_sports_from_member(self, membre):
+        with self._database_engine.new_session() as session:
+            sports = SportDAO(session).get_all()
+            sports_data = [sport.to_dict() for sport in sports]
+        return sports_data
+
+

@@ -39,6 +39,7 @@ class MemberDAO(DAO):
         try:
             member = Member(firstname=data.get('firstname'), lastname=data.get('lastname'), email=data.get('email'), coach=data.get('coach'))
             self._database_session.add(member)
+
             self._database_session.flush()
         except IntegrityError:
             raise Error("Member already exists")

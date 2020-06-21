@@ -3,6 +3,7 @@ import re
 from model.dao.member_dao import MemberDAO
 
 from exceptions import Error, InvalidData
+from model.dao.association_dao import AssociationDAO
 
 
 class MemberController:
@@ -33,7 +34,9 @@ class MemberController:
             with self._database_engine.new_session() as session:
                 # Save member in database
                 member = MemberDAO(session).create(data)
+                member.sports = data['sports']
                 member_data = member.to_dict()
+                AssociationDAO(session).set_sport_for_member(member)
                 return member_data
         except Error as e:
             # log error
@@ -70,8 +73,7 @@ class MemberController:
         mandatories = {
             'firstname': {"type": str, "regex": name_pattern},
             'lastname': {"type": str, "regex": name_pattern},
-            'email': {"type": str, "regex": email_pattern},
-            'sport': {"type": int}
+            'email': {"type": str, "regex": email_pattern}
         }
         for mandatory, specs in mandatories.items():
             if not update:

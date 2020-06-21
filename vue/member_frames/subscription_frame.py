@@ -10,10 +10,11 @@ class SubscriptionFrame(BaseFrame):
         super().__init__(master)
         self._member_controller = member_controller
         self._sport_controller = sport_controller
+        self.coach_value = IntVar()
         self.create_widgets()
         self.name_pattern = re.compile("^[\S-]{2,50}$")
         self.email_pattern = re.compile("^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+)\.([a-zA-Z]{2,5})$")
-        self.initSportList()
+        self.sports = self.init_sport_list()
 
     def create_widgets(self):
 
@@ -32,17 +33,10 @@ class SubscriptionFrame(BaseFrame):
                             command=self.valid)
         self.cancel = Button(self, text="cancel", fg="red",
                              command=self.show_menu)
-        # self.comboExample = ttk.Combobox(self,
-        #                                  values=[
-        #                                      "",
-        #                                      "Foot",
-        #                                      "Curling",
-        #                                      "Caps",
-        #                                      "BottleFlip", ],
-        #                                  state="readonly")
-        # # print(dict(comboExample))
-        # self.comboExample.grid("Sport", column=1, row=4)
-        # self.comboExample.current(0)
+
+        self.coachButton = Checkbutton(self, text='coach', variable=self.coach_value)
+        self.coachButton.grid(row=4, column=3)
+
         self.valid.grid(row=5, column=1, sticky=E)
         self.cancel.grid(row=5, column=2, sticky=W)
 
@@ -62,29 +56,26 @@ class SubscriptionFrame(BaseFrame):
     #     if not self.comboExample.current() == 0
 
     def valid(self):
+        test = self.listbox.curselection()
+        sports_data = []
+        for sport in test:
+            sports_data.append(self.sports[sport])
+        data = dict(firstname=self.firstname_entry.get(), lastname=self.lastname_entry.get(),
+                    email=self.email_entry.get(), coach=self.coach_value == 1, sports=sports_data)
+        try:
+            member_data = self._member_controller.create_member(data)
+            messagebox.showinfo("Success",
+                                "Member %s %s created !" % (member_data['firstname'], member_data['lastname']))
 
-        data_ok = True
-        self.listbox.selection_get()
-        if self.comboBox.current() == 0:
-            messagebox.showinfo("Erreur", "Sélectionner un sport")
-            data_ok = False
-
-        if data_ok:
-            data = dict(firstname=self.firstname_entry.get(), lastname=self.lastname_entry.get(),
-                        email=self.email_entry.get(), sport=self.comboBox.current())
-            try:
-                member_data = self._member_controller.create_member(data)
-                messagebox.showinfo("Success",
-                                    "Member %s %s created !" % (member_data['firstname'], member_data['lastname']))
-
-            except Error as e:
-                messagebox.showerror("Error", str(e))
-            return
+        except Error as e:
+            messagebox.showerror("Error", str(e))
+        return
 
         self.show_menu()
 
-    def initSportList(self):
+    def init_sport_list(self):
         sports = self._sport_controller.list_sport()
         for index, sport in enumerate(sports):
             text = sport['libelle']
-            self.listbox.insert(sport['id'], text)
+            self.listbox.insert('end', text)
+        return sports

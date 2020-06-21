@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship
+
 from model.mapping import Base, generate_id
 import uuid
 
@@ -12,11 +14,9 @@ class Member(Base):
 
     firstname = Column(String(50), nullable=False)
     lastname = Column(String(50), nullable=False)
-
     email = Column(String(256), nullable=False)
-
     coach = Column(Boolean, nullable=False)
-
+    sports = []
 
     def __repr__(self):
         return "<Member(%s %s)>" % (self.firstname, self.lastname.upper())
